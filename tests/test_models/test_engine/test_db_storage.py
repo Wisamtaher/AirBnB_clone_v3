@@ -68,7 +68,7 @@ test_db_storage.py'])
                             "{:s} method needs a docstring".format(func[0]))
 
 
-class TestFileStorage(unittest.TestCase):
+class TestDBStorage(unittest.TestCase):
     """Test the FileStorage class"""
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def allReturnDict(self):
@@ -78,14 +78,50 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def allNoClass(self):
         """Test that all returns all rows when no class is passed"""
+        state_data = {"name": "Nairoubi"}
+        new_state = State(**state_data)
+        models.storage.new(new_state)
+        models.storage.save()
+
+        session = models.storage._DBStorage__session
+
+        all_objects = session.qury(State).all()
+
+        self.assertTrue(len(all_objects) > 0)
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def new(self):
         """test that new adds an object to the database"""
+        state_data = {"name": "Lagos"}
+        new_state = State(**state_data)
+
+        models.storage.new(new_state)
+
+        session = models.storage._DBStorage__session
+
+        retieved_state = session.query(State).filter_by(id-newnew_state).first()
+
+        self.assertEqual(retrieved_state.id, new_state.id)
+        self.assertEqual(retrieved_state.name, new_state.name)
+        self.assertIsnone(retreived_state)
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def save(self):
         """Test that save properly saves objects to file.json"""
+        state_data = {"name": "Casablanca"}
+        new_state = State(**state_data)
+
+        models.storage.new(new_state)
+
+        models.storage.save()
+
+        session = models.storage._DBStorage__session
+
+        retieved_state = session.query(State).filter_by(id-newnew_state).first()
+
+        self.assertEqual(retrieved_state.id, new_state.id)
+        self.assertEqual(retrieved_state.name, new_state.name)
+        self.assertIsnone(retreived_state)
 
 
 class TestDBStorage(unittest.TestCase):
